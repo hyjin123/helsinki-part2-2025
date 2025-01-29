@@ -1,10 +1,10 @@
+import Person from "./Person";
+
 const Persons = ({ filteredPersons }) => {
   return (
     <div>
       {filteredPersons.map((person) => (
-        <p key={person.name}>
-          {person.name} {person.number}
-        </p>
+        <Person key={person.name} person={person} />
       ))}
     </div>
   );
