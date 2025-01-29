@@ -6,13 +6,22 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    const personObject = {
-      name: newName,
-      id: String(persons.length + 1),
-    };
 
-    setPersons(persons.concat(personObject));
-    setNewName("");
+    if (
+      persons.filter(
+        (person) => person.name.toLowerCase() === newName.toLowerCase()
+      ).length > 0
+    ) {
+      alert(`${newName} already exists`);
+    } else {
+      const personObject = {
+        name: newName,
+        id: String(persons.length + 1),
+      };
+
+      setPersons(persons.concat(personObject));
+      setNewName("");
+    }
   };
 
   const handlePersonChange = (event) => {
