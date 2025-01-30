@@ -22,12 +22,31 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
 
-    if (
-      persons.filter(
-        (person) => person.name.toLowerCase() === newName.toLowerCase()
-      ).length > 0
-    ) {
-      alert(`${newName} already exists`);
+    const result = persons.find(
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
+    );
+
+    if (result) {
+      if (window.confirm(`${newName} is already added to the phonebook, 
+        replace the old number with a new one?`)) {
+        const personObject = {
+          name: newName,
+          number: newNumber,
+          id: result.id,
+        };
+
+        personService
+          .update(result.id, personObject)
+          .then((response) => {
+            console.log(response);
+            const updatedPersons = persons.map((person) => {
+              return person.id !== response.id ? person : response;
+            });
+            setPersons(updatedPersons);
+            setNewName("");
+            setNewNumber("");
+          });
+      }
     } else if (!newName || !newNumber) {
       alert("name or number is missing");
     } else {
