@@ -11,12 +11,9 @@ const App = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => {
-        console.log("data has been fetched from the JSON server");
-        setPersons(response.data);
-      });
+    axios.get("http://localhost:3001/persons").then((response) => {
+      setPersons(response.data);
+    });
   }, []);
 
   const addPerson = (event) => {
@@ -37,9 +34,13 @@ const App = () => {
         id: String(persons.length + 1),
       };
 
-      setPersons(persons.concat(personObject));
-      setNewName("");
-      setNewNumber("");
+      axios
+        .post("http://localhost:3001/persons", personObject)
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+          setNewName("");
+          setNewNumber("");
+        });
     }
   };
 
