@@ -19,16 +19,6 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": "4"
-    },
-    {
-      "id": "5",
-      "name": "Sean",
-      "number": "123"
-    },
-    {
-      "id": "6",
-      "name": "Testing own module",
-      "number": "123"
     }
   ]
 }

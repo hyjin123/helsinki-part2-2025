@@ -47,6 +47,18 @@ const App = () => {
     }
   };
 
+  const removePerson = (id) => {
+    if (window.confirm("Do you really want to remove this user?")) {
+      personService
+        .remove(id)
+        .then((response) => {
+          console.log("this user has been removed!");
+          const updatedPersons = persons.filter(person => person.id !== response.id);
+          setPersons(updatedPersons);
+        });
+    }
+  };
+
   const handlePersonChange = (event) => {
     setNewName(event.target.value);
   };
@@ -77,7 +89,7 @@ const App = () => {
         handlePersonChange={handlePersonChange}
       />
       <h2>Numbers</h2>
-      <Persons filteredPersons={filteredPersons} />
+      <Persons filteredPersons={filteredPersons} removePerson={removePerson} />
     </div>
   );
 };
