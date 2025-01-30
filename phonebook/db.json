@@ -24,6 +24,11 @@
       "id": "5",
       "name": "Sean",
       "number": "123"
+    },
+    {
+      "id": "6",
+      "name": "Testing own module",
+      "number": "123"
     }
   ]
 }
