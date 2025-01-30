@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Persons from "./Components/Persons";
 import Search from "./Components/Search";
 import Form from "./Components/Form";
-import axios from "axios";
+import Notification from "./Components/Notification";
 import personService from "./services/persons";
 
 const App = () => {
@@ -10,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     personService
@@ -45,6 +46,10 @@ const App = () => {
             setPersons(updatedPersons);
             setNewName("");
             setNewNumber("");
+            setMessage(`${response.name}'s number was successfully changed!`);
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
           });
       }
     } else if (!newName || !newNumber) {
@@ -62,6 +67,10 @@ const App = () => {
           setPersons(persons.concat(response));
           setNewName("");
           setNewNumber("");
+          setMessage(`${response.name} was successfully added!`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
         });
     }
   };
@@ -98,6 +107,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Search search={search} handleSearch={handleSearch} />
       <h3>Add a new person</h3>
       <Form
