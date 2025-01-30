@@ -10,7 +10,8 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
-  const [message, setMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     personService
@@ -46,14 +47,23 @@ const App = () => {
             setPersons(updatedPersons);
             setNewName("");
             setNewNumber("");
-            setMessage(`${response.name}'s number was successfully changed!`);
+            setSuccessMessage(`${response.name}'s number was successfully changed!`);
             setTimeout(() => {
-              setMessage(null);
+              setSuccessMessage(null);
+            }, 5000);
+          })
+          .catch((error) => {
+            setErrorMessage(`${newName} was already removed from the server`);
+            setTimeout(() => {
+              setErrorMessage(null);
             }, 5000);
           });
       }
     } else if (!newName || !newNumber) {
-      alert("name or number is missing");
+      setErrorMessage("name or number is missing in your submission");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
     } else {
       const personObject = {
         name: newName,
@@ -67,9 +77,9 @@ const App = () => {
           setPersons(persons.concat(response));
           setNewName("");
           setNewNumber("");
-          setMessage(`${response.name} was successfully added!`);
+          setSuccessMessage(`${response.name} was successfully added!`);
           setTimeout(() => {
-            setMessage(null);
+            setSuccessMessage(null);
           }, 5000);
         });
     }
@@ -83,6 +93,16 @@ const App = () => {
           console.log("this user has been removed!");
           const updatedPersons = persons.filter(person => person.id !== response.id);
           setPersons(updatedPersons);
+          setSuccessMessage(`${response.name}'s number was successfully removed!`);
+          setTimeout(() => {
+            setSuccessMessage(null);
+          }, 5000);
+        })
+        .catch((error) => {
+          setErrorMessage(`user was already removed from the server`);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
         });
     }
   };
@@ -107,7 +127,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message} />
+      <Notification successMessage={successMessage} errorMessage={errorMessage} />
       <Search search={search} handleSearch={handleSearch} />
       <h3>Add a new person</h3>
       <Form
