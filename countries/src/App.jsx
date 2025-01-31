@@ -11,12 +11,16 @@ function App() {
     setSearch(searchedCountry);
     //any time a new search is queried, make a new get request to the API
     countryService
-      .getCountries(searchedCountry)
+      .getCountries()
       .then((response) => {
         console.log(response);
         setCountriesList(response);
       });
   };
+
+  const filteredCountriesList = countriesList.filter((country) => {
+    return country.name.common.toLowerCase().includes(search.toLowerCase());
+  });
 
   return (
     <>
@@ -24,7 +28,7 @@ function App() {
         find countries:
         <input value={search} onChange={handleSearch} />
       </p>
-      <Countries countriesList={countriesList} />
+      <Countries setSearch={setSearch} countriesList={filteredCountriesList} />
     </>
   );
 }
