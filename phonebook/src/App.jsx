@@ -85,15 +85,16 @@ const App = () => {
     }
   };
 
-  const removePerson = (id) => {
+  const removePerson = (person) => {
     if (window.confirm("Do you really want to remove this user?")) {
       personService
-        .remove(id)
-        .then((response) => {
+        .remove(person.id)
+        .then(() => {
           console.log("this user has been removed!");
-          const updatedPersons = persons.filter(person => person.id !== response.id);
+          const updatedPersons = persons.filter(p => p.id !== person.id);
+          console.log("this is the updated person", updatedPersons);
           setPersons(updatedPersons);
-          setSuccessMessage(`${response.name}'s number was successfully removed!`);
+          setSuccessMessage(`${person.name}'s number was successfully removed!`);
           setTimeout(() => {
             setSuccessMessage(null);
           }, 5000);
